@@ -37,16 +37,22 @@ namespace DirectorySizer
                 item.DeepSize = SubdirectoryInfo.GetDeepSize(infos, item.FullName);
             }
 
-            var top = infos.OrderByDescending(i => i.DeepSize).Take(10).ToList();
+            var top = infos
+                .OrderByDescending(i => i.DeepSize)
+                .ThenByDescending(i => i.Depth)
+                .Take(10)
+                .ToList();
 
             Console.WriteLine();
             Console.WriteLine($"Root directory: {root.FullName}");
             Console.WriteLine($"Total directories recursed: {directories.Count()}");
             Console.WriteLine();
+            Console.WriteLine("     Size  Depth  Path");
+            Console.WriteLine("---------  -----  --------------------------------------------------------------------------------");
 
             foreach (var item in top)
             {
-                Console.WriteLine($"{item.DeepSize.ToUnits()}\t{item.Depth}\t{item.FullName}");
+                Console.WriteLine($"{item.DeepSize.ToUnits(),9}  {item.Depth,5}  {item.FullName}");
             }
         }
     }
