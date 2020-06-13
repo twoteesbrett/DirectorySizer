@@ -25,7 +25,7 @@ namespace DirectorySizer
             Console.WriteLine("Getting directory sizes...");
 
             var infos = directories
-                .Where(d => d.Name != "." && d.Name != ".." && d.Exists)
+                .Where(d => d.Name != "." && d.Name != ".." && Directory.Exists(d.FullName))
                 .Select(d => new SubdirectoryInfo(d))
                 .OrderByDescending(i => i.Depth)
                 .ToList();
